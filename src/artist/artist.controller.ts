@@ -22,7 +22,7 @@ export class ArtistController {
     @Post()
     async createArtist(
         @Body() createArtistDto: CreateArtistDto
-    ) {
+    ): Promise<Artist> {
         return await this.artistService.createArtist(createArtistDto);
     }
 
