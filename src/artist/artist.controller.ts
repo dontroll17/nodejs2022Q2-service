@@ -12,7 +12,7 @@ export class ArtistController {
         return await this.artistService.getAllArtists();
     }
 
-    @Get('id')
+    @Get(':id')
     async getOneArtist(
         @Param('id') id: string
     ): Promise<Artist> {
