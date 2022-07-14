@@ -25,9 +25,7 @@ export class TrackService {
   async createTrack(createTrackDto: CreateTrackDto): Promise<Track> {
     const track: Track = {
       ...createTrackDto,
-      id: v4(),
-      artistId: null,
-      albumId: null,
+      id: v4()
     };
 
     this.tracks.push(track);

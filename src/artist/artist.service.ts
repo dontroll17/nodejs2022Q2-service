@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { v4 } from 'uuid';
+import { UpdateArtistDto } from './dto/updateArtist.dto';
 import { CreateArtistDto } from './dto/createArtist.dto';
 import { Artist } from './interface/artist.interface';
 
@@ -39,5 +40,24 @@ export class ArtistService {
     }
 
     this.artists = filterArtist;
+  }
+
+  async changeArtist(id: string, updateArtistDto: UpdateArtistDto) {
+    let artist = this.artists.find((item) => item.id === id);
+
+    if (!artist) {
+      throw new NotFoundException('Artist not found');
+    }
+
+    const store = this.artists.filter((item) => item.id !== id);
+    this.artists = store;
+
+    artist = {
+      id: id,
+      ...updateArtistDto
+    }
+
+    this.artists.push(artist);
+    return artist;
   }
 }

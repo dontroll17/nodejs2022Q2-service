@@ -8,4 +8,10 @@ export class CreateTrackDto {
   @IsNumber()
   @IsNotEmpty()
   duration: number;
+
+  @IsNotEmpty()
+  artistId: string | null;
+
+  @IsNotEmpty()
+  albumId: string | null;
 }

@@ -47,7 +47,7 @@ export class UsersService {
 
   async changePass(id: string, updatePasswordDto: UpdatePasswordDto) {
     const user = this.users.find((item) => item.id === id);
-    user.version++;
+    //user.version++;
     user.updatedAt = Date.now();
     user.password = updatePasswordDto.newPassword;
   }

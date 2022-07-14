@@ -7,8 +7,10 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ArtistService } from './artist.service';
+import { UpdateArtistDto } from './dto/updateArtist.dto';
 import { CreateArtistDto } from './dto/createArtist.dto';
 import { Artist } from './interface/artist.interface';
 
@@ -53,5 +55,17 @@ export class ArtistController {
     id: string,
   ) {
     return await this.artistService.deleteArtist(id);
+  }
+
+  @Put(':id')
+  async changeArtist(
+    @Param(
+      'id', new ParseUUIDPipe({
+        version: '4',
+      })
+    ) id: string,
+    @Body() updateArtistDto: UpdateArtistDto
+  ) {
+    return await this.artistService.changeArtist(id, updateArtistDto);
   }
 }
