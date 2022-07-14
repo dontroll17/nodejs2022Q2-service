@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dto/createArtist.dto';
 import { Artist } from './interface/artist.interface';
@@ -14,7 +14,9 @@ export class ArtistController {
 
     @Get(':id')
     async getOneArtist(
-        @Param('id') id: string
+        @Param('id', new ParseUUIDPipe({
+            version: '4'
+          })) id: string
     ): Promise<Artist> {
         return await this.artistService.getArtistById(id);
     }
@@ -28,7 +30,9 @@ export class ArtistController {
 
     @Delete(':id')
     async deleteArtist(
-        @Param('id') id: string
+        @Param('id', new ParseUUIDPipe({
+            version: '4'
+          })) id: string
     ) {
         return await this.artistService.deleteArtist(id);
     }

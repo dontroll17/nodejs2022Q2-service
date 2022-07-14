@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
 import { Album } from './interface/album.interface';
@@ -14,7 +14,9 @@ export class AlbumController {
 
     @Get(':id')
     async getAlbumById(
-        @Param('id') id: string
+        @Param('id', new ParseUUIDPipe({
+            version: '4'
+          })) id: string
     ): Promise<Album> {
         return await this.albumService.getAlbumById(id);
     }
@@ -28,7 +30,9 @@ export class AlbumController {
 
     @Delete(':id')
     async deleteAlbum(
-        @Param('id') id: string
+        @Param('id', new ParseUUIDPipe({
+            version: '4'
+          })) id: string
     ) {
         return await this.albumService.deleteAlbum(id);
     }

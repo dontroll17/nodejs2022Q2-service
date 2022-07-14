@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { CreateTrackDto } from './dto/createTrack.dto';
 import { Track } from './interface/track.interface';
 import { TrackService } from './track.service';
@@ -14,7 +14,9 @@ export class TrackController {
 
     @Get(':id')
     async getOneTrack(
-        @Param('id') id: string
+        @Param('id', new ParseUUIDPipe({
+            version: '4'
+          })) id: string
     ): Promise<Track> {
         return await this.trackService.getTrackById(id);
     }
@@ -28,7 +30,9 @@ export class TrackController {
 
     @Delete(':id')
     async deleteTrack(
-        @Param('id') id: string
+        @Param('id', new ParseUUIDPipe({
+            version: '4'
+          })) id: string
     ) {
         return await this.trackService.deleteTrack(id);
     }
