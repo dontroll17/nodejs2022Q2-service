@@ -35,7 +35,8 @@ export class TrackService {
   async deleteTrack(id: string): Promise<void> {
     const filterTrack = this.tracks.filter((item) => item.id !== id);
 
-    if (filterTrack === this.tracks) {
+    const track = this.tracks.find(item => item.id === id);
+    if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
 

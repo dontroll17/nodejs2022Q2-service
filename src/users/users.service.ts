@@ -37,8 +37,8 @@ export class UsersService {
 
   async deleteUser(id: string): Promise<void> {
     const filterUser = this.users.filter((item) => item.id !== id);
-
-    if (this.users === filterUser) {
+    const user = this.users.find(item => item.id === id);
+    if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 

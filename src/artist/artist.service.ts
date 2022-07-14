@@ -35,10 +35,11 @@ export class ArtistService {
   async deleteArtist(id: string): Promise<void> {
     const filterArtist = this.artists.filter((item) => item.id !== id);
 
-    if (filterArtist === this.artists) {
+    const artist = this.artists.find(item => item.id === id);
+    if(!artist) {
       throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
-
+  
     this.artists = filterArtist;
   }
 

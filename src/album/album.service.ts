@@ -35,10 +35,10 @@ export class AlbumService {
   async deleteAlbum(id: string): Promise<void> {
     const albumFilter = this.albums.filter((item) => item.id !== id);
 
-    if (albumFilter === this.albums) {
+    const album = this.albums.find(item => item.id === id);
+    if(!album) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
-
     this.albums = albumFilter;
   }
 
