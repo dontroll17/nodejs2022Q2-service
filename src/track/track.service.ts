@@ -45,7 +45,7 @@ export class TrackService {
 
   async changeTrack(id: string, updateTrackDto: UpdateTrackDto) {
     let track = this.tracks.find((item) => item.id === id);
-
+    console.log(track);
     if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
