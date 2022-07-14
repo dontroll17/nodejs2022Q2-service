@@ -24,8 +24,7 @@ export class UsersService {
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const user: User = {
       id: v4(),
-      login: createUserDto.login,
-      password: createUserDto.password,
+      ...createUserDto,
       version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now()
@@ -37,6 +36,11 @@ export class UsersService {
 
   async deleteUser(id: string): Promise<void> {
     const filterUser = this.users.filter(item => item.id !== id);
+
+    if(this.users === filterUser) {
+      throw new NotFoundException('User not found');
+    }
+
     this.users = filterUser;
 
   }
