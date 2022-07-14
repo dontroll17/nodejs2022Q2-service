@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { User } from './interface/Users.interface';
 import { v4 } from 'uuid';
@@ -16,7 +16,7 @@ export class UsersService {
     const result = this.users.find((item) => item.id === id);
 
     if (!result) {
-      throw new NotFoundException('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     return result;
@@ -39,7 +39,7 @@ export class UsersService {
     const filterUser = this.users.filter((item) => item.id !== id);
 
     if (this.users === filterUser) {
-      throw new NotFoundException('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     this.users = filterUser;
@@ -47,7 +47,11 @@ export class UsersService {
 
   async changePass(id: string, updatePasswordDto: UpdatePasswordDto) {
     const user = this.users.find((item) => item.id === id);
-    //user.version++;
+
+    if(!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    user.version++;
     user.updatedAt = Date.now();
     user.password = updatePasswordDto.newPassword;
   }

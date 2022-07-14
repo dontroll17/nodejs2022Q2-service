@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
+import { UpdateAlbumDto } from './dto/updateAlbum.dto';
 import { Album } from './interface/album.interface';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class AlbumService {
     const result = this.albums.find((item) => item.id === id);
 
     if (!result) {
-      throw new NotFoundException('Album not found');
+      throw new HttpException('Album not found',  HttpStatus.NOT_FOUND);
     }
 
     return result;
@@ -24,8 +25,7 @@ export class AlbumService {
   async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
     const album: Album = {
       id: v4(),
-      ...createAlbumDto,
-      artistId: null,
+      ...createAlbumDto
     };
 
     this.albums.push(album);
@@ -36,9 +36,28 @@ export class AlbumService {
     const albumFilter = this.albums.filter((item) => item.id !== id);
 
     if (albumFilter === this.albums) {
-      throw new NotFoundException('Album not found');
+      throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
 
     this.albums = albumFilter;
+  }
+
+  async updateAlbum(id: string, updateAlbumDto: UpdateAlbumDto) {
+    let album = this.albums.find((item) => item.id === id);
+
+    if (!album) {
+      throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
+    }
+
+    const store = this.albums.filter((item) => item.id !== id);
+    this.albums = store;
+
+    album = {
+      id: id,
+      ...updateAlbumDto
+    };
+
+    this.albums.push(album);
+    return album;
   }
 }

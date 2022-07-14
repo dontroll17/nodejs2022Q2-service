@@ -7,9 +7,11 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
+import { UpdateAlbumDto } from './dto/updateAlbum.dto';
 import { Album } from './interface/album.interface';
 
 @Controller('album')
@@ -51,5 +53,17 @@ export class AlbumController {
     id: string,
   ) {
     return await this.albumService.deleteAlbum(id);
+  }
+
+  @Put(':id')
+  async updateAlbum(
+    @Param(
+      'id', new ParseUUIDPipe({
+        version: '4'
+      })
+    ) id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto
+  ) {
+    return await this.albumService.updateAlbum(id, updateAlbumDto);
   }
 }

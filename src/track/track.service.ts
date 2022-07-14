@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { CreateTrackDto } from './dto/createTrack.dto';
 import { UpdateTrackDto } from './dto/updateTrack.dto';
@@ -16,7 +16,7 @@ export class TrackService {
     const result = this.tracks.find((item) => item.id === id);
 
     if (!result) {
-      throw new NotFoundException('Track not found');
+      throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
 
     return result;
@@ -36,7 +36,7 @@ export class TrackService {
     const filterTrack = this.tracks.filter((item) => item.id !== id);
 
     if (filterTrack === this.tracks) {
-      throw new NotFoundException('Track not found');
+      throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
 
     this.tracks = filterTrack;
@@ -46,7 +46,7 @@ export class TrackService {
     let track = this.tracks.find((item) => item.id === id);
 
     if (!track) {
-      throw new NotFoundException('Track not found');
+      throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
 
     const store = this.tracks.filter((item) => item.id !== id);

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { UpdateArtistDto } from './dto/updateArtist.dto';
 import { CreateArtistDto } from './dto/createArtist.dto';
@@ -16,7 +16,7 @@ export class ArtistService {
     const result = this.artists.find((item) => item.id === id);
 
     if (!result) {
-      throw new NotFoundException('Artist not found');
+      throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
 
     return result;
@@ -36,7 +36,7 @@ export class ArtistService {
     const filterArtist = this.artists.filter((item) => item.id !== id);
 
     if (filterArtist === this.artists) {
-      throw new NotFoundException('Artist not found');
+      throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
 
     this.artists = filterArtist;
@@ -46,7 +46,7 @@ export class ArtistService {
     let artist = this.artists.find((item) => item.id === id);
 
     if (!artist) {
-      throw new NotFoundException('Artist not found');
+      throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
 
     const store = this.artists.filter((item) => item.id !== id);
