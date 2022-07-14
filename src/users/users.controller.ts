@@ -9,14 +9,14 @@ export class UsersController {
 
   @Get()
   async getAllUsers(): Promise<User[]> {
-    return this.usersService.getAllUsers();
+    return await this.usersService.getAllUsers();
   }
 
   @Get(':id')
   async getOneUser(
     @Param('id') id: string
   ): Promise<User> {
-    return this.usersService.getUserById(id);
+    return await this.usersService.getUserById(id);
   }
 
   @Post()
@@ -30,6 +30,6 @@ export class UsersController {
   async deleteUser(
     @Param('id') id: string
   ) {
-    return this.usersService.deleteUser(id);
+    return await this.usersService.deleteUser(id);
   }
 }

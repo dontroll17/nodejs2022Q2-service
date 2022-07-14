@@ -12,7 +12,7 @@ export class UsersService {
   }
 
   async getUserById(id: string): Promise<User> {
-    const result =  this.users.find(item => item.id === id);
+    const result = this.users.find(item => item.id === id);
 
     if(!result) {
       throw new NotFoundException('User not found');
@@ -42,6 +42,5 @@ export class UsersService {
     }
 
     this.users = filterUser;
-
   }
 }

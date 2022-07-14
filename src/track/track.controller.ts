@@ -9,14 +9,14 @@ export class TrackController {
 
     @Get()
     async getAllTracks(): Promise<Track[]> {
-        return this.trackService.getAllTracks();
+        return await this.trackService.getAllTracks();
     }
 
     @Get(':id')
     async getOneTrack(
         @Param('id') id: string
     ): Promise<Track> {
-        return this.trackService.getTrackById(id);
+        return await this.trackService.getTrackById(id);
     }
 
     @Post()
@@ -30,6 +30,6 @@ export class TrackController {
     async deleteTrack(
         @Param('id') id: string
     ) {
-        return this.trackService.deleteTrack(id);
+        return await this.trackService.deleteTrack(id);
     }
 }
