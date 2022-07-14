@@ -5,39 +5,39 @@ import { Artist } from './interface/artist.interface';
 
 @Injectable()
 export class ArtistService {
-    private artists: Artist[] = [];
+  private artists: Artist[] = [];
 
-    async getAllArtists(): Promise<Artist[]> {
-        return this.artists;
+  async getAllArtists(): Promise<Artist[]> {
+    return this.artists;
+  }
+
+  async getArtistById(id: string): Promise<Artist> {
+    const result = this.artists.find((item) => item.id === id);
+
+    if (!result) {
+      throw new NotFoundException('Artist not found');
     }
 
-    async getArtistById(id: string): Promise<Artist> {
-        const result = this.artists.find(item => item.id === id);
+    return result;
+  }
 
-        if(!result) {
-            throw new NotFoundException('Artist not found')
-        }
+  async createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
+    const artist: Artist = {
+      id: v4(),
+      ...createArtistDto,
+    };
 
-        return result;
+    this.artists.push(artist);
+    return artist;
+  }
+
+  async deleteArtist(id: string): Promise<void> {
+    const filterArtist = this.artists.filter((item) => item.id !== id);
+
+    if (filterArtist === this.artists) {
+      throw new NotFoundException('Artist not found');
     }
 
-    async createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
-        const artist: Artist = {
-            id: v4(),
-            ...createArtistDto
-        }
-
-        this.artists.push(artist);
-        return artist;
-    }
-
-    async deleteArtist(id: string): Promise<void> {
-        const filterArtist = this.artists.filter(item => item.id !== id);
-
-        if(filterArtist === this.artists) {
-            throw new NotFoundException('Artist not found');
-        }
-
-        this.artists = filterArtist;
-    }
+    this.artists = filterArtist;
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { User } from './interface/Users.interface';
 import { v4 } from 'uuid';
+import { UpdatePasswordDto } from './dto/updatePassword.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,9 +13,9 @@ export class UsersService {
   }
 
   async getUserById(id: string): Promise<User> {
-    const result = this.users.find(item => item.id === id);
+    const result = this.users.find((item) => item.id === id);
 
-    if(!result) {
+    if (!result) {
       throw new NotFoundException('User not found');
     }
 
@@ -27,7 +28,7 @@ export class UsersService {
       ...createUserDto,
       version: 1,
       createdAt: Date.now(),
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
     };
 
     this.users.push(user);
@@ -35,12 +36,19 @@ export class UsersService {
   }
 
   async deleteUser(id: string): Promise<void> {
-    const filterUser = this.users.filter(item => item.id !== id);
+    const filterUser = this.users.filter((item) => item.id !== id);
 
-    if(this.users === filterUser) {
+    if (this.users === filterUser) {
       throw new NotFoundException('User not found');
     }
 
     this.users = filterUser;
+  }
+
+  async changePass(id: string, updatePasswordDto: UpdatePasswordDto) {
+    const user = this.users.find((item) => item.id === id);
+    user.version++;
+    user.updatedAt = Date.now();
+    user.password = updatePasswordDto.newPassword;
   }
 }
