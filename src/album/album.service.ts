@@ -6,7 +6,7 @@ import { Album } from './interface/album.interface';
 
 @Injectable()
 export class AlbumService {
-  private albums: Album[] = [];
+  albums: Album[] = [];
 
   async getAllAlbums(): Promise<Album[]> {
     return this.albums;

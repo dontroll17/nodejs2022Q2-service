@@ -6,7 +6,7 @@ import { Track } from './interface/track.interface';
 
 @Injectable()
 export class TrackService {
-  private tracks: Track[] = [];
+  tracks: Track[] = [];
 
   async getAllTracks(): Promise<Track[]> {
     return this.tracks;
@@ -45,7 +45,6 @@ export class TrackService {
 
   async changeTrack(id: string, updateTrackDto: UpdateTrackDto) {
     let track = this.tracks.find((item) => item.id === id);
-    console.log(track);
     if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }

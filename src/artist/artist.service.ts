@@ -6,7 +6,7 @@ import { Artist } from './interface/artist.interface';
 
 @Injectable()
 export class ArtistService {
-  private artists: Artist[] = [];
+  artists: Artist[] = [];
 
   async getAllArtists(): Promise<Artist[]> {
     return this.artists;
