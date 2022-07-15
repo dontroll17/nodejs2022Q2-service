@@ -60,11 +60,13 @@ export class ArtistController {
   @Put(':id')
   async changeArtist(
     @Param(
-      'id', new ParseUUIDPipe({
+      'id',
+      new ParseUUIDPipe({
         version: '4',
-      })
-    ) id: string,
-    @Body() updateArtistDto: UpdateArtistDto
+      }),
+    )
+    id: string,
+    @Body() updateArtistDto: UpdateArtistDto,
   ) {
     return await this.artistService.changeArtist(id, updateArtistDto);
   }

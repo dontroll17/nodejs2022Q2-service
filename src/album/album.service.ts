@@ -16,7 +16,7 @@ export class AlbumService {
     const result = this.albums.find((item) => item.id === id);
 
     if (!result) {
-      throw new HttpException('Album not found',  HttpStatus.NOT_FOUND);
+      throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
 
     return result;
@@ -25,7 +25,7 @@ export class AlbumService {
   async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
     const album: Album = {
       id: v4(),
-      ...createAlbumDto
+      ...createAlbumDto,
     };
 
     this.albums.push(album);
@@ -35,8 +35,8 @@ export class AlbumService {
   async deleteAlbum(id: string): Promise<void> {
     const albumFilter = this.albums.filter((item) => item.id !== id);
 
-    const album = this.albums.find(item => item.id === id);
-    if(!album) {
+    const album = this.albums.find((item) => item.id === id);
+    if (!album) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
     this.albums = albumFilter;
@@ -54,7 +54,7 @@ export class AlbumService {
 
     album = {
       id: id,
-      ...updateAlbumDto
+      ...updateAlbumDto,
     };
 
     this.albums.push(album);

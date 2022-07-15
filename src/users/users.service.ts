@@ -37,7 +37,7 @@ export class UsersService {
 
   async deleteUser(id: string): Promise<void> {
     const filterUser = this.users.filter((item) => item.id !== id);
-    const user = this.users.find(item => item.id === id);
+    const user = this.users.find((item) => item.id === id);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -48,7 +48,7 @@ export class UsersService {
   async changePass(id: string, updatePasswordDto: UpdatePasswordDto) {
     const user = this.users.find((item) => item.id === id);
 
-    if(!user) {
+    if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     user.version++;

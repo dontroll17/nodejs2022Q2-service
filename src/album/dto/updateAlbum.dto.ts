@@ -1,3 +1,3 @@
 import { CreateAlbumDto } from './createAlbum.dto';
 
-export class UpdateAlbumDto extends CreateAlbumDto {};
+export class UpdateAlbumDto extends CreateAlbumDto {}

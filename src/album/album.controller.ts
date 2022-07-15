@@ -58,11 +58,13 @@ export class AlbumController {
   @Put(':id')
   async updateAlbum(
     @Param(
-      'id', new ParseUUIDPipe({
-        version: '4'
-      })
-    ) id: string,
-    @Body() updateAlbumDto: UpdateAlbumDto
+      'id',
+      new ParseUUIDPipe({
+        version: '4',
+      }),
+    )
+    id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
   ) {
     return await this.albumService.updateAlbum(id, updateAlbumDto);
   }

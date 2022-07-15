@@ -25,7 +25,7 @@ export class TrackService {
   async createTrack(createTrackDto: CreateTrackDto): Promise<Track> {
     const track: Track = {
       ...createTrackDto,
-      id: v4()
+      id: v4(),
     };
 
     this.tracks.push(track);
@@ -35,7 +35,7 @@ export class TrackService {
   async deleteTrack(id: string): Promise<void> {
     const filterTrack = this.tracks.filter((item) => item.id !== id);
 
-    const track = this.tracks.find(item => item.id === id);
+    const track = this.tracks.find((item) => item.id === id);
     if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
