@@ -12,12 +12,14 @@ export class TrackEntity {
     duration: number;
 
     @Column({
-        nullable: true
+        nullable: true,
+        type: 'uuid'
     })
     albumId: string | null;
 
     @Column({
-        nullable: true
+        nullable: true,
+        type: 'uuid'
     })
     artistId: string | null;
 }
