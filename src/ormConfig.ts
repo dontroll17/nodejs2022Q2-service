@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { UserEntity } from './users/entities/user.entity';
 import { TrackEntity } from './track/entities/track.entity';
 import { ArtistEntity } from './artist/entities/artist.entity';
+import { AlbumEntity } from './album/entities/album.entity';
 
 export default {
   type: 'postgres',
@@ -12,6 +13,6 @@ export default {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
   synchronize: true,
-  entities: [UserEntity, TrackEntity, ArtistEntity],
+  entities: [UserEntity, TrackEntity, ArtistEntity, AlbumEntity],
   migrations: [],
 } as DataSourceOptions;
