@@ -1,6 +1,7 @@
 import { DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 import { UserEntity } from './users/entities/user.entity';
+import { TrackEntity } from './track/entities/track.entity';
 
 export default {
   type: 'postgres',
@@ -10,6 +11,6 @@ export default {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
   synchronize: true,
-  entities: [UserEntity],
+  entities: [UserEntity, TrackEntity],
   migrations: [],
 } as DataSourceOptions;

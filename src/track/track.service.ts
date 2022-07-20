@@ -1,63 +1,68 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { v4 } from 'uuid';
 import { CreateTrackDto } from './dto/createTrack.dto';
 import { UpdateTrackDto } from './dto/updateTrack.dto';
+import { TrackEntity } from './entities/track.entity';
 import { Track } from './interface/track.interface';
 
 @Injectable()
 export class TrackService {
-  tracks: Track[] = [];
+  constructor(
+    @InjectRepository(TrackEntity)
+    private trackRepository: Repository<TrackEntity>
+  ) {}
 
   async getAllTracks(): Promise<Track[]> {
-    return this.tracks;
+    return await this.trackRepository.find();
   }
 
   async getTrackById(id: string): Promise<Track> {
-    const result = this.tracks.find((item) => item.id === id);
+    const track = await this.trackRepository.findOne({
+      where: {
+        id
+      }
+    });
 
-    if (!result) {
+    if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
 
-    return result;
-  }
-
-  async createTrack(createTrackDto: CreateTrackDto): Promise<Track> {
-    const track: Track = {
-      ...createTrackDto,
-      id: v4(),
-    };
-
-    this.tracks.push(track);
     return track;
   }
 
-  async deleteTrack(id: string): Promise<void> {
-    const filterTrack = this.tracks.filter((item) => item.id !== id);
+  async createTrack(createTrackDto: CreateTrackDto): Promise<Track> {
+    const track = this.trackRepository.create(createTrackDto);
+    return await this.trackRepository.save(track);
+  }
 
-    const track = this.tracks.find((item) => item.id === id);
-    if (!track) {
+  async deleteTrack(id: string): Promise<void> {
+    const res = await this.trackRepository.delete(id);
+    
+    if (res.affected === 0) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
-
-    this.tracks = filterTrack;
   }
 
   async changeTrack(id: string, updateTrackDto: UpdateTrackDto) {
-    let track = this.tracks.find((item) => item.id === id);
+    let track = await this.trackRepository.findOne({
+      where: {
+        id
+      }
+    });
+
     if (!track) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
-
-    const store = this.tracks.filter((item) => item.id !== id);
-    this.tracks = store;
 
     track = {
       id: id,
       ...updateTrackDto,
     };
 
-    this.tracks.push(track);
+    await this.trackRepository.save(track);
+    
     return track;
   }
 }
