@@ -17,7 +17,7 @@ import 'dotenv/config';
     TrackModule,
     AlbumModule,
     FavoritesModule,
-    TypeOrmModule.forRoot(configService)
+    TypeOrmModule.forRoot(configService),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,7 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
-import { User } from './interface/Users.interface';
-import { v4 } from 'uuid';
 import { UpdatePasswordDto } from './dto/updatePassword.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,10 +7,9 @@ import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>
+    private userRepository: Repository<UserEntity>,
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
@@ -26,17 +23,17 @@ export class UsersService {
   async getAll() {
     const users = await this.userRepository.find();
 
-    return users.map( user => user.toResponse());
+    return users.map((user) => user.toResponse());
   }
 
   async getById(id: string) {
     const user = await this.userRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
-    if(!user) {
+    if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
@@ -46,15 +43,15 @@ export class UsersService {
   async changePass(id: string, updatePasswordDto: UpdatePasswordDto) {
     const user = await this.userRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    if(user.password !== updatePasswordDto.oldPassword) {
+    if (user.password !== updatePasswordDto.oldPassword) {
       throw new HttpException('Wrong old password', HttpStatus.FORBIDDEN);
     }
 
@@ -70,7 +67,7 @@ export class UsersService {
   async deleteUser(id: string) {
     const res = await this.userRepository.delete(id);
 
-    if(res.affected === 0) {
+    if (res.affected === 0) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
   }
