@@ -5,12 +5,16 @@ import { Artist } from './interface/artist.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArtistEntity } from './entities/artist.entity';
 import { Repository } from 'typeorm';
+import { TrackEntity } from 'src/track/entities/track.entity';
+import { AlbumEntity } from 'src/album/entities/album.entity';
 
 @Injectable()
 export class ArtistService {
   constructor(
     @InjectRepository(ArtistEntity)
-    private artistRepository: Repository<ArtistEntity>
+    private artistRepository: Repository<ArtistEntity>,
+    @InjectRepository(TrackEntity)
+    private trackRepository: Repository<TrackEntity>
   ) {}
 
   async getAllArtists(): Promise<Artist[]> {
@@ -37,6 +41,18 @@ export class ArtistService {
   }
 
   async deleteArtist(id: string): Promise<void> {
+    const findTrack = await this.trackRepository.findOne({
+      where: {
+        artistId: id
+      }
+    });
+
+    if(findTrack) {
+      findTrack.artistId = null;
+      findTrack.albumId = null;
+      await this.trackRepository.save(findTrack);
+    }
+
     const res = await this.artistRepository.delete(id);
 
     if (res.affected === 0) {

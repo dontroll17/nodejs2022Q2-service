@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { Favorites } from './dto/favorites.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { FavoritesEntity } from './entities/favs.entity';
 
 @Injectable()
 export class FavoritesService {
-  favorites: Favorites = {
-    albums: [],
-    artists: [],
-    tracks: [],
-  };
+  constructor(
+    @InjectRepository(FavoritesEntity)
+    private favsRepository: Repository<FavoritesEntity>
+  ) {}
 
+  //wrong!!!
   async getAll() {
-    return this.favorites;
+    return this.favsRepository.find();
   }
 }

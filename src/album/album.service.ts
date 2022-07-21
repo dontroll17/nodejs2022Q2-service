@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TrackEntity } from 'src/track/entities/track.entity';
 import { Repository } from 'typeorm';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
 import { UpdateAlbumDto } from './dto/updateAlbum.dto';
@@ -10,7 +11,9 @@ import { Album } from './interface/album.interface';
 export class AlbumService {
   constructor(
     @InjectRepository(AlbumEntity)
-    private albumRepository: Repository<AlbumEntity>
+    private albumRepository: Repository<AlbumEntity>,
+    @InjectRepository(TrackEntity)
+    private trackRepository: Repository<TrackEntity>
   ) {}
 
   async getAllAlbums(): Promise<Album[]> {
@@ -37,6 +40,17 @@ export class AlbumService {
   }
 
   async deleteAlbum(id: string): Promise<void> {
+    const findTrack = await this.trackRepository.findOne({
+      where: {
+        albumId: id
+      }
+    });
+
+    if(findTrack) {
+      findTrack.albumId = null;
+      await this.trackRepository.save(findTrack);
+    }
+
     const res = await this.albumRepository.delete(id);
 
     if (res.affected === 0) {
