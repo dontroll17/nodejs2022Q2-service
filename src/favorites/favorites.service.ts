@@ -26,6 +26,7 @@ export class FavoritesService {
   }
   
   async getAll() {
+    //TODO
     return this.favsRep;
   }
 
@@ -40,7 +41,12 @@ export class FavoritesService {
   }
 
   async deleteTrack(id: string) {
-    return `${id} deleted from favs`;
+    const track = this.favsRep.tracks.indexOf(id);
+
+    if(!track) {
+      throw new HttpException('id not found', HttpStatus.NOT_FOUND);
+    }
+    return this.favsRep.tracks.splice(track, 1);
   }
 
   async addAlbum(id: string) {
@@ -55,7 +61,13 @@ export class FavoritesService {
   }
 
   async deleteAlbum(id: string) {
-    return `${id} deleted from favs`;
+    const album = this.favsRep.albums.indexOf(id);
+
+    if(!album) {
+      throw new HttpException('id not found', HttpStatus.NOT_FOUND);
+    }
+
+    return this.favsRep.albums.splice(album, 1);
   }
 
   async addArtist(id: string) {
@@ -70,6 +82,12 @@ export class FavoritesService {
   }
 
   async deleteArtist(id: string) {
-    return `${id} deleted from favs`;
+    const artist = this.favsRep.albums.indexOf(id);
+
+    if(!artist) {
+      throw new HttpException('id not found', HttpStatus.NOT_FOUND);
+    }
+    
+    return this.favsRep.artists.splice(artist, 1);
   }
 }
