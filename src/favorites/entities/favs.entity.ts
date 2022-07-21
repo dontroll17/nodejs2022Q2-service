@@ -2,13 +2,15 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class FavoritesEntity {
-    //fix
-    @Column('text', { array: true })
-    artist: string[];
+    @PrimaryColumn()
+    id: string;
 
-    @Column('text', { array: true })
+    @Column('uuid', { array: true })
+    artists: string[];
+
+    @Column('uuid', { array: true })
     albums: string[];
 
-    @PrimaryColumn('text', { array: true })
+    @Column('uuid', { array: true })
     tracks: string[];
 }

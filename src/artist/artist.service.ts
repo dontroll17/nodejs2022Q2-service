@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ArtistEntity } from './entities/artist.entity';
 import { Repository } from 'typeorm';
 import { TrackEntity } from 'src/track/entities/track.entity';
-import { AlbumEntity } from 'src/album/entities/album.entity';
 
 @Injectable()
 export class ArtistService {

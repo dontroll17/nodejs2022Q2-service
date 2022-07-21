@@ -10,8 +10,38 @@ export class FavoritesService {
     private favsRepository: Repository<FavoritesEntity>
   ) {}
 
-  //wrong!!!
+  
   async getAll() {
-    return this.favsRepository.find();
+    const [favs] = await this.favsRepository.find();
+
+    return {
+      artists: favs.artists,
+      albums: favs.albums,
+      tracks: favs.tracks
+    };
+  }
+
+  async addTrack(id: string) {
+    return `${id} added to favs`;
+  }
+
+  async deleteTrack(id: string) {
+    return `${id} deleted from favs`;
+  }
+
+  async addAlbum(id: string) {
+    return `${id} added to favs`;
+  }
+
+  async deleteAlbum(id: string) {
+    return `${id} deleted from favs`;
+  }
+
+  async addArtist(id: string) {
+    return `${id} added to favs`;
+  }
+
+  async deleteArtist(id: string) {
+    return `${id} deleted from favs`;
   }
 }
