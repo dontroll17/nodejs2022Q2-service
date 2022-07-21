@@ -19,15 +19,14 @@ export class FavoritesService {
     private artistRepository: Repository<ArtistEntity>
   ) {}
 
+  favsRep = {
+    artists: [],
+    albums: [],
+    tracks: []
+  }
   
   async getAll() {
-    //const favs = await this.favsRepository.find();
-
-    return {
-      artists: [],
-      albums: [],
-      tracks: []
-    };
+    return this.favsRep;
   }
 
   async addTrack(id: string) {
@@ -36,7 +35,8 @@ export class FavoritesService {
     if(!track) {
       throw new HttpException('id not found', HttpStatus.UNPROCESSABLE_ENTITY);
     }
-    return `${id} added to favs`;
+    this.favsRep.tracks.push(track);
+    return track;
   }
 
   async deleteTrack(id: string) {
@@ -50,7 +50,8 @@ export class FavoritesService {
       throw new HttpException('id not found', HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    return `${id} added to favs`;
+    this.favsRep.albums.push(album);
+    return album;
   }
 
   async deleteAlbum(id: string) {
@@ -63,7 +64,9 @@ export class FavoritesService {
     if(!artist) {
       throw new HttpException('id not found', HttpStatus.UNPROCESSABLE_ENTITY);
     }
-    return `${id} added to favs`;
+
+    this.favsRep.artists.push(artist);
+    return artist;
   }
 
   async deleteArtist(id: string) {
