@@ -12,12 +12,12 @@ export class FavoritesService {
 
   
   async getAll() {
-    const [favs] = await this.favsRepository.find();
+    //const favs = await this.favsRepository.find();
 
     return {
-      artists: favs.artists,
-      albums: favs.albums,
-      tracks: favs.tracks
+      artists: [],
+      albums: [],
+      tracks: []
     };
   }
 
