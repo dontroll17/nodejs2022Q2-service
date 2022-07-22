@@ -21,7 +21,7 @@ copy and rename .env.example to .env
 ## Running application
 
 ```
-docker-compose -d --build
+docker-compose up
 ```
 
 After starting the app on port (4000 as default) you can open
