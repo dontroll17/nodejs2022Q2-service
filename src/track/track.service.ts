@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FavoritesService } from 'src/favorites/favorites.service';
 import { Repository } from 'typeorm';
 import { CreateTrackDto } from './dto/createTrack.dto';
 import { UpdateTrackDto } from './dto/updateTrack.dto';
@@ -10,7 +11,8 @@ import { Track } from './interface/track.interface';
 export class TrackService {
   constructor(
     @InjectRepository(TrackEntity)
-    private trackRepository: Repository<TrackEntity>
+    private trackRepository: Repository<TrackEntity>,
+    private favsRep: FavoritesService
   ) {}
 
   async getAllTracks(): Promise<Track[]> {
@@ -42,6 +44,8 @@ export class TrackService {
     if (res.affected === 0) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
+
+    this.favsRep.deleteTrack(id);
   }
 
   async changeTrack(id: string, updateTrackDto: UpdateTrackDto) {

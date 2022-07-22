@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FavoritesService } from 'src/favorites/favorites.service';
 import { TrackEntity } from 'src/track/entities/track.entity';
 import { Repository } from 'typeorm';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
@@ -13,7 +14,8 @@ export class AlbumService {
     @InjectRepository(AlbumEntity)
     private albumRepository: Repository<AlbumEntity>,
     @InjectRepository(TrackEntity)
-    private trackRepository: Repository<TrackEntity>
+    private trackRepository: Repository<TrackEntity>,
+    private favsRep: FavoritesService
   ) {}
 
   async getAllAlbums(): Promise<Album[]> {
@@ -56,6 +58,8 @@ export class AlbumService {
     if (res.affected === 0) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
+
+    this.favsRep.deleteAlbum(id);
   }
 
   async updateAlbum(id: string, updateAlbumDto: UpdateAlbumDto) {
