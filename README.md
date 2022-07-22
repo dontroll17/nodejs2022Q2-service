@@ -8,19 +8,20 @@
 ## Downloading
 
 ```
-git clone -b dev https://github.com/dontroll17/nodejs2022Q2-service.git
+git clone -b docker https://github.com/dontroll17/nodejs2022Q2-service.git
 ```
 
 ## Installing NPM modules
 
 ```
 npm install
+copy and rename .env.example to .env
 ```
 
 ## Running application
 
 ```
-npm start
+docker-compose -d --build
 ```
 
 After starting the app on port (4000 as default) you can open
@@ -54,19 +55,3 @@ To run only specific test suite with authorization
 ```
 npm run test:auth -- <path to suite>
 ```
-
-### Auto-fix and format
-
-```
-npm run lint
-```
-
-```
-npm run format
-```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
