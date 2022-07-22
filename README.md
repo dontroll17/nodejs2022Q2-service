@@ -21,6 +21,7 @@ copy and rename .env.example to .env
 ## Running application
 
 ```
+docker-compose build
 docker-compose up
 ```
 
