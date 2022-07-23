@@ -10,7 +10,14 @@ import { TrackEntity } from 'src/track/entities/track.entity';
 @Module({
   providers: [FavoritesService],
   controllers: [FavoritesController],
-  imports: [TypeOrmModule.forFeature([FavoritesEntity, ArtistEntity, AlbumEntity, TrackEntity])],
-  exports: [FavoritesService]
+  imports: [
+    TypeOrmModule.forFeature([
+      FavoritesEntity,
+      ArtistEntity,
+      AlbumEntity,
+      TrackEntity,
+    ]),
+  ],
+  exports: [FavoritesService],
 })
 export class FavoritesModule {}

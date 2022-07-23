@@ -16,24 +16,24 @@ export class FavoritesService {
     @InjectRepository(AlbumEntity)
     private albumRepository: Repository<AlbumEntity>,
     @InjectRepository(ArtistEntity)
-    private artistRepository: Repository<ArtistEntity>
+    private artistRepository: Repository<ArtistEntity>,
   ) {}
 
   favsRep = {
     artists: [],
     albums: [],
-    tracks: []
-  }
-  
+    tracks: [],
+  };
+
   async getAll() {
     //TODO
     return this.favsRep;
   }
 
   async addTrack(id: string) {
-    const track = await this.trackRepository.findOne({ where: { id }});
+    const track = await this.trackRepository.findOne({ where: { id } });
 
-    if(!track) {
+    if (!track) {
       throw new HttpException('id not found', HttpStatus.UNPROCESSABLE_ENTITY);
     }
     this.favsRep.tracks.push(track);
@@ -43,16 +43,16 @@ export class FavoritesService {
   async deleteTrack(id: string) {
     const track = this.favsRep.tracks.indexOf(id);
 
-    if(!track) {
+    if (!track) {
       throw new HttpException('id not found', HttpStatus.NOT_FOUND);
     }
     return this.favsRep.tracks.splice(track, 1);
   }
 
   async addAlbum(id: string) {
-    const album = await this.albumRepository.findOne({ where: { id }});
+    const album = await this.albumRepository.findOne({ where: { id } });
 
-    if(!album) {
+    if (!album) {
       throw new HttpException('id not found', HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -63,7 +63,7 @@ export class FavoritesService {
   async deleteAlbum(id: string) {
     const album = this.favsRep.albums.indexOf(id);
 
-    if(!album) {
+    if (!album) {
       throw new HttpException('id not found', HttpStatus.NOT_FOUND);
     }
 
@@ -71,9 +71,9 @@ export class FavoritesService {
   }
 
   async addArtist(id: string) {
-    const artist = await this.artistRepository.findOne({ where: { id }});
+    const artist = await this.artistRepository.findOne({ where: { id } });
 
-    if(!artist) {
+    if (!artist) {
       throw new HttpException('id not found', HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -84,10 +84,10 @@ export class FavoritesService {
   async deleteArtist(id: string) {
     const artist = this.favsRep.albums.indexOf(id);
 
-    if(!artist) {
+    if (!artist) {
       throw new HttpException('id not found', HttpStatus.NOT_FOUND);
     }
-    
+
     return this.favsRep.artists.splice(artist, 1);
   }
 }

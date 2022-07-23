@@ -12,7 +12,7 @@ export class TrackService {
   constructor(
     @InjectRepository(TrackEntity)
     private trackRepository: Repository<TrackEntity>,
-    private favsRep: FavoritesService
+    private favsRep: FavoritesService,
   ) {}
 
   async getAllTracks(): Promise<Track[]> {
@@ -22,8 +22,8 @@ export class TrackService {
   async getTrackById(id: string): Promise<Track> {
     const track = await this.trackRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!track) {
@@ -40,7 +40,7 @@ export class TrackService {
 
   async deleteTrack(id: string): Promise<void> {
     const res = await this.trackRepository.delete(id);
-    
+
     if (res.affected === 0) {
       throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     }
@@ -51,8 +51,8 @@ export class TrackService {
   async changeTrack(id: string, updateTrackDto: UpdateTrackDto) {
     let track = await this.trackRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!track) {
@@ -65,7 +65,7 @@ export class TrackService {
     };
 
     await this.trackRepository.save(track);
-    
+
     return track;
   }
 }

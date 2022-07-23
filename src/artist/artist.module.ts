@@ -9,6 +9,9 @@ import { FavoritesModule } from 'src/favorites/favorites.module';
 @Module({
   providers: [ArtistService],
   controllers: [ArtistController],
-  imports: [TypeOrmModule.forFeature([ArtistEntity, TrackEntity]), FavoritesModule]
+  imports: [
+    TypeOrmModule.forFeature([ArtistEntity, TrackEntity]),
+    FavoritesModule,
+  ],
 })
 export class ArtistModule {}

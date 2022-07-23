@@ -8,6 +8,6 @@ import { FavoritesModule } from 'src/favorites/favorites.module';
 @Module({
   providers: [TrackService],
   controllers: [TrackController],
-  imports: [TypeOrmModule.forFeature([TrackEntity]), FavoritesModule]
+  imports: [TypeOrmModule.forFeature([TrackEntity]), FavoritesModule],
 })
 export class TrackModule {}

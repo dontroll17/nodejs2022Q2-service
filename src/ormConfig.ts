@@ -14,6 +14,12 @@ export default {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
   synchronize: true,
-  entities: [UserEntity, TrackEntity, ArtistEntity, AlbumEntity, FavoritesEntity],
+  entities: [
+    UserEntity,
+    TrackEntity,
+    ArtistEntity,
+    AlbumEntity,
+    FavoritesEntity,
+  ],
   migrations: [],
 } as DataSourceOptions;

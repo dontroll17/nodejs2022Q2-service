@@ -6,10 +6,12 @@ import { AlbumEntity } from './entities/album.entity';
 import { TrackEntity } from 'src/track/entities/track.entity';
 import { FavoritesModule } from 'src/favorites/favorites.module';
 
-
 @Module({
   providers: [AlbumService],
   controllers: [AlbumController],
-  imports: [TypeOrmModule.forFeature([AlbumEntity, TrackEntity]), FavoritesModule]
+  imports: [
+    TypeOrmModule.forFeature([AlbumEntity, TrackEntity]),
+    FavoritesModule,
+  ],
 })
 export class AlbumModule {}

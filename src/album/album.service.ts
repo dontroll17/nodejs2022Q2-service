@@ -15,7 +15,7 @@ export class AlbumService {
     private albumRepository: Repository<AlbumEntity>,
     @InjectRepository(TrackEntity)
     private trackRepository: Repository<TrackEntity>,
-    private favsRep: FavoritesService
+    private favsRep: FavoritesService,
   ) {}
 
   async getAllAlbums(): Promise<Album[]> {
@@ -25,8 +25,8 @@ export class AlbumService {
   async getAlbumById(id: string): Promise<Album> {
     const album = await this.albumRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!album) {
@@ -44,11 +44,11 @@ export class AlbumService {
   async deleteAlbum(id: string): Promise<void> {
     const findTrack = await this.trackRepository.findOne({
       where: {
-        albumId: id
-      }
+        albumId: id,
+      },
     });
 
-    if(findTrack) {
+    if (findTrack) {
       findTrack.albumId = null;
       await this.trackRepository.save(findTrack);
     }
@@ -65,8 +65,8 @@ export class AlbumService {
   async updateAlbum(id: string, updateAlbumDto: UpdateAlbumDto) {
     let album = await this.albumRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!album) {
@@ -75,8 +75,8 @@ export class AlbumService {
 
     album = {
       id,
-      ...updateAlbumDto
-    }
+      ...updateAlbumDto,
+    };
 
     await this.albumRepository.save(album);
     return album;

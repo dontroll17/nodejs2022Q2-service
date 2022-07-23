@@ -15,7 +15,7 @@ export class ArtistService {
     private artistRepository: Repository<ArtistEntity>,
     @InjectRepository(TrackEntity)
     private trackRepository: Repository<TrackEntity>,
-    private favsRep: FavoritesService
+    private favsRep: FavoritesService,
   ) {}
 
   async getAllArtists(): Promise<Artist[]> {
@@ -25,8 +25,8 @@ export class ArtistService {
   async getArtistById(id: string): Promise<Artist> {
     const artist = await this.artistRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!artist) {
@@ -44,11 +44,11 @@ export class ArtistService {
   async deleteArtist(id: string): Promise<void> {
     const findTrack = await this.trackRepository.findOne({
       where: {
-        artistId: id
-      }
+        artistId: id,
+      },
     });
 
-    if(findTrack) {
+    if (findTrack) {
       findTrack.artistId = null;
       findTrack.albumId = null;
       await this.trackRepository.save(findTrack);
@@ -66,8 +66,8 @@ export class ArtistService {
   async changeArtist(id: string, updateArtistDto: UpdateArtistDto) {
     let artist = await this.artistRepository.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     if (!artist) {
