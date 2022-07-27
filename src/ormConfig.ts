@@ -5,6 +5,7 @@ import { TrackEntity } from './track/entities/track.entity';
 import { ArtistEntity } from './artist/entities/artist.entity';
 import { AlbumEntity } from './album/entities/album.entity';
 import { FavoritesEntity } from './favorites/entities/favs.entity';
+import { AuthEntity } from './auth/entities/auth.entity';
 
 export default {
   type: 'postgres',
@@ -20,6 +21,7 @@ export default {
     ArtistEntity,
     AlbumEntity,
     FavoritesEntity,
+    AuthEntity
   ],
   migrations: [],
 } as DataSourceOptions;
