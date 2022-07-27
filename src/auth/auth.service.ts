@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/users/dto/createUser.dto';
 import { Repository } from 'typeorm';
@@ -14,6 +14,14 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
+    private async findUser(login: string) {
+        return await this.authRep.findOne({
+            where: {
+                login: login
+            }
+        });
+    }
+
     private async genToken(user: CreateUserDto) {
         const payload = { login: user.login };
         return {
@@ -21,14 +29,20 @@ export class AuthService {
         };
     }
 
-    async signup(createUserDto: CreateUserDto) {
-        const findUser = await this.authRep.findOne({
-            where: {
-                login: createUserDto.login
-            }
-        });
+    private async validateUser(userDto: CreateUserDto) {
+        const user = await this.findUser(userDto.login);
+        const passCheck = await bcrypt.compare(userDto.password, user.password);
+        if(user && passCheck) {
+            return user;
+        }
 
-        if(findUser) {
+        throw new UnauthorizedException({message: 'Wrong email or password'});
+    }
+
+    async signup(createUserDto: CreateUserDto) {
+        const user = await this.findUser(createUserDto.login);
+
+        if(user) {
             throw new HttpException('login already exist', HttpStatus.CONFLICT);
         }
 
@@ -38,5 +52,10 @@ export class AuthService {
 
         await this.authRep.save(createUser);
         return this.genToken(createUser);
+    }
+
+    async login(userDto: CreateUserDto) {
+        const user = await this.validateUser(userDto);
+        return this.genToken(user);
     }
 }
