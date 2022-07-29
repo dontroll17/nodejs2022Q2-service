@@ -31,6 +31,10 @@ export class AuthService {
 
     private async validateUser(userDto: CreateUserDto) {
         const user = await this.findUser(userDto.login);
+        if(!user) {
+            throw new HttpException('User not found', HttpStatus.FORBIDDEN);
+        }
+        
         const passCheck = await bcrypt.compare(userDto.password, user.password);
         if(user && passCheck) {
             return user;
