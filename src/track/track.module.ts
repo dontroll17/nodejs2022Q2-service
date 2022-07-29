@@ -10,9 +10,9 @@ import { AuthModule } from 'src/auth/auth.module';
   providers: [TrackService],
   controllers: [TrackController],
   imports: [
-    TypeOrmModule.forFeature([TrackEntity]), 
+    TypeOrmModule.forFeature([TrackEntity]),
     FavoritesModule,
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
   ],
 })
 export class TrackModule {}

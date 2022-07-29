@@ -13,7 +13,7 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [
     TypeOrmModule.forFeature([ArtistEntity, TrackEntity]),
     FavoritesModule,
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
   ],
 })
 export class ArtistModule {}

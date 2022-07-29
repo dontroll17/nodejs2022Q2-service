@@ -24,12 +24,10 @@ import { TrackModule } from 'src/track/track.module';
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
       signOptions: {
-        expiresIn: '12h'
-      }
-    })
+        expiresIn: '12h',
+      },
+    }),
   ],
-  exports: [
-    AuthService, JwtModule
-  ]
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

@@ -18,7 +18,7 @@ import { AuthModule } from 'src/auth/auth.module';
       AlbumEntity,
       TrackEntity,
     ]),
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
   ],
   exports: [FavoritesService],
 })

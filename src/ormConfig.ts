@@ -21,7 +21,7 @@ export default {
     ArtistEntity,
     AlbumEntity,
     FavoritesEntity,
-    AuthEntity
+    AuthEntity,
   ],
   migrations: [],
 } as DataSourceOptions;
