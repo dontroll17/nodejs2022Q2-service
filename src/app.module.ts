@@ -8,6 +8,7 @@ import { AlbumModule } from './album/album.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { LoggerModule } from './logger/logger.module';
 import configService from './ormConfig';
 import 'dotenv/config';
 
@@ -20,6 +21,7 @@ import 'dotenv/config';
     FavoritesModule,
     TypeOrmModule.forRoot(configService),
     AuthModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
