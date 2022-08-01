@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { AuthEntity } from './entities/auth.entity';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { User } from './interface/auth.interface';
 
 @Injectable()
 export class AuthService {
@@ -27,8 +28,8 @@ export class AuthService {
     });
   }
 
-  private async genToken(user: CreateUserDto) {
-    const payload = { login: user.login };
+  private async genToken(user: User) {
+    const payload = { id: user.id, login: user.login };
     return {
       accessToken: this.jwtService.sign(payload),
     };
