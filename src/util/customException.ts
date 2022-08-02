@@ -1,19 +1,9 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { ArgumentsHost, Catch } from '@nestjs/common';
+import { BaseExceptionFilter } from '@nestjs/core';
 
-@Catch(HttpException)
-export class CustomException implements ExceptionFilter {
-    catch(exception: HttpException, host: ArgumentsHost) {
-        const ctx = host.switchToHttp();
-        const res = ctx.getResponse<Response>();
-        const req = ctx.getRequest<Request>();
-        const exStatus = exception.getStatus();
-
-        res
-            .status(exStatus)
-            .json({
-                statusCode: exStatus,
-                path: req.url
-            })
+@Catch()
+export class CustomException extends BaseExceptionFilter {
+    catch(exception: unknown, host: ArgumentsHost) {
+        super.catch(exception, host);
     }
 }

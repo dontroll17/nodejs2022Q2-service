@@ -1,5 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { readFile } from 'fs/promises';
 import { dirname, join } from 'path';
@@ -23,7 +23,8 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new CustomException());
+  const { httpAdapter } = app.get(HttpAdapterHost)
+  app.useGlobalFilters(new CustomException(httpAdapter));
   await app.listen(process.env.PORT);
 }
 bootstrap();
