@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone -b docker https://github.com/dontroll17/nodejs2022Q2-service.git
+git clone -b logger https://github.com/dontroll17/nodejs2022Q2-service.git
 ```
 
 ## Installing NPM modules
