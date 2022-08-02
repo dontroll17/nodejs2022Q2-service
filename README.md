@@ -20,6 +20,8 @@ copy and rename .env.example to .env
 
 ## Running application
 
+application starts in docker with db
+
 ```
 docker-compose build
 docker-compose up
@@ -34,6 +36,7 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 After application running open new terminal and enter:
 
 To run all tests without authorization
+(will be failed)
 
 ```
 npm run test
@@ -46,6 +49,7 @@ npm run test -- <path to suite>
 ```
 
 To run all test with authorization
+In app implements guards
 
 ```
 npm run test:auth
