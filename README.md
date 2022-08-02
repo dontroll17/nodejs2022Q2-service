@@ -23,7 +23,6 @@ copy and rename .env.example to .env
 application starts in docker with db
 
 ```
-docker-compose build
 docker-compose up
 ```
 
