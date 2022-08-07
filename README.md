@@ -21,6 +21,7 @@ copy and rename .env.example to .env
 ## Running application
 
 application starts in docker with db
+Logging can be checked by running through docker compose, then the log will be displayed in the console
 
 ```
 docker-compose up
