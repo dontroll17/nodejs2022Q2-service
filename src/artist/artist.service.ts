@@ -1,64 +1,85 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
 import { UpdateArtistDto } from './dto/updateArtist.dto';
 import { CreateArtistDto } from './dto/createArtist.dto';
 import { Artist } from './interface/artist.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ArtistEntity } from './entities/artist.entity';
+import { Repository } from 'typeorm';
+import { TrackEntity } from 'src/track/entities/track.entity';
+import { FavoritesService } from 'src/favorites/favorites.service';
 
 @Injectable()
 export class ArtistService {
-  artists: Artist[] = [];
+  constructor(
+    @InjectRepository(ArtistEntity)
+    private artistRepository: Repository<ArtistEntity>,
+    @InjectRepository(TrackEntity)
+    private trackRepository: Repository<TrackEntity>,
+    private favsRep: FavoritesService,
+  ) {}
 
   async getAllArtists(): Promise<Artist[]> {
-    return this.artists;
+    return await this.artistRepository.find();
   }
 
   async getArtistById(id: string): Promise<Artist> {
-    const result = this.artists.find((item) => item.id === id);
+    const artist = await this.artistRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-    if (!result) {
+    if (!artist) {
       throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
 
-    return result;
-  }
-
-  async createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
-    const artist: Artist = {
-      id: v4(),
-      ...createArtistDto,
-    };
-
-    this.artists.push(artist);
     return artist;
   }
 
-  async deleteArtist(id: string): Promise<void> {
-    const filterArtist = this.artists.filter((item) => item.id !== id);
+  async createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
+    const artist = this.artistRepository.create(createArtistDto);
+    return await this.artistRepository.save(artist);
+  }
 
-    const artist = this.artists.find((item) => item.id === id);
-    if (!artist) {
+  async deleteArtist(id: string): Promise<void> {
+    const findTrack = await this.trackRepository.findOne({
+      where: {
+        artistId: id,
+      },
+    });
+
+    if (findTrack) {
+      findTrack.artistId = null;
+      findTrack.albumId = null;
+      await this.trackRepository.save(findTrack);
+    }
+
+    const res = await this.artistRepository.delete(id);
+
+    if (res.affected === 0) {
       throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
 
-    this.artists = filterArtist;
+    this.favsRep.deleteArtist(id);
   }
 
   async changeArtist(id: string, updateArtistDto: UpdateArtistDto) {
-    let artist = this.artists.find((item) => item.id === id);
+    let artist = await this.artistRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
     if (!artist) {
       throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     }
-
-    const store = this.artists.filter((item) => item.id !== id);
-    this.artists = store;
 
     artist = {
       id: id,
       ...updateArtistDto,
     };
 
-    this.artists.push(artist);
+    await this.artistRepository.save(artist);
     return artist;
   }
 }
