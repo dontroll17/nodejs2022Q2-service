@@ -1,10 +1,11 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { readFile } from 'fs/promises';
 import { dirname, join } from 'path';
 import { parse } from 'yaml';
 import { AppModule } from './app.module';
+import { CustomException } from './util/customException';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  const { httpAdapter } = app.get(HttpAdapterHost)
+  app.useGlobalFilters(new CustomException(httpAdapter));
   await app.listen(process.env.PORT);
 }
 bootstrap();

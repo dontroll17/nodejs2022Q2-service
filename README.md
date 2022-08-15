@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone -b docker https://github.com/dontroll17/nodejs2022Q2-service.git
+git clone -b logger https://github.com/dontroll17/nodejs2022Q2-service.git
 ```
 
 ## Installing NPM modules
@@ -21,9 +21,9 @@ copy and rename .env.example to .env
 ## Running application
 
 application starts in docker with db
+Logging can be checked by running through docker compose, then the log will be displayed in the console
 
 ```
-docker-compose build
 docker-compose up
 ```
 
