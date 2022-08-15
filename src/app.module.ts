@@ -6,6 +6,9 @@ import { ArtistModule } from './artist/artist.module';
 import { TrackModule } from './track/track.module';
 import { AlbumModule } from './album/album.module';
 import { FavoritesModule } from './favorites/favorites.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import configService from './ormConfig';
 import 'dotenv/config';
 
 @Module({
@@ -15,6 +18,8 @@ import 'dotenv/config';
     TrackModule,
     AlbumModule,
     FavoritesModule,
+    TypeOrmModule.forRoot(configService),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

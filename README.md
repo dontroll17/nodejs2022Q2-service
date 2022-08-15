@@ -8,19 +8,23 @@
 ## Downloading
 
 ```
-git clone -b dev https://github.com/dontroll17/nodejs2022Q2-service.git
+git clone -b docker https://github.com/dontroll17/nodejs2022Q2-service.git
 ```
 
 ## Installing NPM modules
 
 ```
 npm install
+copy and rename .env.example to .env
 ```
 
 ## Running application
 
+application starts in docker with db
+
 ```
-npm start
+docker-compose build
+docker-compose up
 ```
 
 After starting the app on port (4000 as default) you can open
@@ -32,6 +36,7 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 After application running open new terminal and enter:
 
 To run all tests without authorization
+(will be failed)
 
 ```
 npm run test
@@ -44,6 +49,7 @@ npm run test -- <path to suite>
 ```
 
 To run all test with authorization
+In app implements guards
 
 ```
 npm run test:auth
@@ -54,19 +60,3 @@ To run only specific test suite with authorization
 ```
 npm run test:auth -- <path to suite>
 ```
-
-### Auto-fix and format
-
-```
-npm run lint
-```
-
-```
-npm run format
-```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
